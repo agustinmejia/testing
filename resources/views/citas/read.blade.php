@@ -138,7 +138,7 @@
     <script src='https://conferencias.beni.gob.bo/external_api.js'></script>
     <script>
 
-        const WHATSAPP_API = 'http://127.0.0.1:3000';
+        const WHATSAPP_API = 'https://api.ideacreativa.dev';
 
         const PHONE = "591{{ $cita->paciente->celular }}";
         const ROOMNAME = "consulta-{{ $cita->id }}"

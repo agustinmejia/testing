@@ -306,14 +306,15 @@
                 <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
                 </div>
 
-                <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
+                <form action="{{ url("admin/citas/store") }}" method="post" role="form" class="php-email-form">
+                    @csrf
                     <div class="row">
                         <div class="col-md-3 form-group">
-                            <input type="text" name="nombre_completo" class="form-control" placeholder="Tu nombre completo" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <input type="text" name="nombre_completo" class="form-control" placeholder="Tu nombre completo" required>
                             <div class="validate"></div>
                         </div>
                         <div class="col-md-3 form-group mt-3 mt-md-0">
-                            <input type="text" class="form-control" name="ci" placeholder="Tu cédula de identidad" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <input type="text" class="form-control" name="ci" placeholder="Tu cédula de identidad" required>
                             <div class="validate"></div>
                         </div>
                         <div class="col-md-3 form-group mt-3 mt-md-0">
@@ -325,13 +326,13 @@
                             <div class="validate"></div>
                         </div>
                         <div class="col-md-3 form-group mt-3 mt-md-0">
-                            <input type="tel" class="form-control" name="celular" placeholder="Tu n&deg; de celular" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                            <input type="tel" class="form-control" name="celular" placeholder="Tu n&deg; de celular" required>
                             <div class="validate"></div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3 form-group mt-3">
-                            <input type="date" name="fecha" class="form-control datepicker" value="{{ date('Y-m-d') }}" placeholder="Fecha de consulta" data-rule="minlen:4" data-msg="Please enter at least 4 chars" required>
+                            <input type="date" name="fecha" class="form-control datepicker" value="{{ date('Y-m-d') }}" placeholder="Fecha de consulta"  required>
                             <div class="validate"></div>
                         </div>
                         <div class="col-md-3 form-group mt-3">
@@ -356,7 +357,7 @@
                             <select name="doctor_id" id="doctor" class="form-select" required>
                                 <option value="">Selecciona el médico</option>
                                 @foreach (App\Models\Doctor::get() as $item)
-                                <option value="{{ $item->id }}">{{ $item->nombre }} {{ $item->apellidos }}</option>
+                                <option value="{{ $item->id }}">{{ $item->nombre_completo }}</option>
                                 @endforeach
                             </select>
                             <div class="validate"></div>
@@ -364,7 +365,7 @@
                     </div>
 
                     <div class="form-group mt-3">
-                        <textarea class="form-control" name="descripcion" rows="5" placeholder="Describe el motivo de tu consulta médica"></textarea>
+                        <textarea class="form-control" name="descripcion" rows="5" placeholder="Describe el motivo de tu consulta médica" required></textarea>
                         <div class="validate"></div>
                     </div>
                     <div class="mb-3">
@@ -957,5 +958,44 @@
 
         <!-- Template Main JS File -->
         <script src="assets/js/main.js"></script>
+
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+        <template id="alert-success">
+            <swal-title>
+                Solicitud de consulta registrada correctamente
+            </swal-title>
+            <swal-icon type="success"></swal-icon>
+            <swal-button type="primary">
+        </template>
+
+        <template id="alert-error">
+            <swal-title>
+                Ocurrió un error
+            </swal-title>
+            <swal-icon type="warning" color="red"></swal-icon>
+            <swal-button type="primary">
+        </template>
+
+        <script>
+            $(document).ready(function(){
+                $('.php-email-form').submit(function(e){
+                    e.preventDefault();
+                    $.post($('.php-email-form').attr('action'), $('.php-email-form').serialize(), function(res){
+                        if(res.success){
+                            Swal.fire({
+                                template: '#alert-success'
+                            })
+                        }else{
+                            Swal.fire({
+                                template: '#alert-error'
+                            })
+                        }
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

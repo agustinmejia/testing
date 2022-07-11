@@ -28,6 +28,7 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
+    Route::post('citas/store', [CitasController::class, 'store']);
     Route::get('citas/{id}', [CitasController::class, 'read'])->name('voyager.citas.show');
 });
 
