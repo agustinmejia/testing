@@ -24,5 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DataTypesTableSeeder::class);
         $this->call(DataRowsTableSeeder::class);
         $this->call(SettingsTableSeeder::class);
+        $this->call(TurnosTableSeeder::class);
+        $this->call(EspecialidadesTableSeeder::class);
+        $this->call(DoctoresTableSeeder::class);
+        $this->call(PacientesTableSeeder::class);
     }
 }

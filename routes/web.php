@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Controllers
+use App\Http\Controllers\CitasController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,12 +21,14 @@ Route::get('login', function () {
 })->name('login');
 
 Route::get('/', function () {
-    return redirect('admin');
+    return view('welcome');
 });
 
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('citas/{id}', [CitasController::class, 'read'])->name('voyager.citas.show');
 });
 
 // Clear cache
